@@ -1,0 +1,105 @@
+#!/bin/bash
+
+set -eou pipefail
+
+if [[ ! -x $(which psql) ]]; then
+    echo "Command psql not installed" 1>&2
+    exit 1
+fi
+
+if [[ ! $(pg_isready) ]]; then
+    echo "Connection to server failed" 1>&2
+    exit 1
+fi
+
+#
+# Initiate database
+#
+function init {
+    createdb "$PGDATABASE" 2> /dev/null || true
+    psql -qc "CREATE EXTENSION IF NOT EXISTS pgcrypto;"
+    psql -qc "REVOKE connect ON DATABASE \"$PGDATABASE\" FROM PUBLIC;"
+    psql -qc "
+      CREATE TABLE IF NOT EXISTS tokens (
+        email               VARCHAR(50) PRIMARY KEY,
+        bitbucket_user      VARCHAR(50) UNIQUE,
+        bitbucket_token     VARCHAR,
+        artifactory_user    VARCHAR(50) UNIQUE,
+        artifactory_token   VARCHAR
+      );
+    "
+    psql -qc "
+      CREATE OR REPLACE FUNCTION hash_update_tg()
+      RETURNS trigger AS \$\$
+        BEGIN
+          IF (TG_OP = 'INSERT') OR (TG_OP = 'UPDATE') THEN
+            NEW.bitbucket_token = PGP_SYM_ENCRYPT(NEW.bitbucket_token, '$AES256_KEY');
+            NEW.artifactory_token = PGP_SYM_ENCRYPT(NEW.artifactory_token, '$AES256_KEY');
+            RETURN NEW;
+          END IF;
+        END;
+      \$\$ LANGUAGE plpgsql;
+    "
+    psql -tc "
+      CREATE TRIGGER secret_tokens_insert_update
+      BEFORE INSERT OR UPDATE ON tokens
+      FOR EACH ROW EXECUTE PROCEDURE hash_update_tg();
+    " 2> /dev/null || true
+}
+
+#
+# Load user tokens to env
+#
+function setenv {
+  EMAIL=$1
+
+  # ensure user exists
+  if [[ -z "$(psql -tc "SELECT 1 FROM tokens WHERE email = '$EMAIL';")" ]]; then
+    echo "User '$EMAIL' does not exist"
+    exit 1
+  fi
+
+  readarray -t select <<< "$(psql -F "," -Ac "
+    SELECT email,
+      bitbucket_user,
+      PGP_SYM_DECRYPT(bitbucket_token::bytea, '$AES256_KEY') AS bitbucket_token,
+      artifactory_user,
+      PGP_SYM_DECRYPT(artifactory_token::bytea, '$AES256_KEY') AS artifactory_token
+    FROM tokens WHERE email = '$EMAIL';
+  " | head -2)"
+
+  # export secrets as environment variables
+  IFS="," read -ra headers <<< "${select[0]}"
+  IFS="," read -ra row <<< "${select[1]}"
+  for i in "${!headers[@]}"; do export "$(echo "${headers[$i]}" | tr "[:lower:]" "[:upper:]")"="${row[$i]:-}"; done
+}
+
+#
+# Manual
+#
+function help {
+    echo "Usage: $(basename $0) command"
+    echo "Commands: init"
+}
+
+# input function
+option=$1
+
+shift 1
+
+if [[ -z $option ]]; then
+    help
+    exit 1
+fi
+
+case $option in
+    init)
+        init
+        ;;
+    setenv)
+        setenv "$@"
+        ;;
+    *)
+        help
+        ;;
+esac

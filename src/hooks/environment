@@ -1,0 +1,21 @@
+#!/usr/bin/env bash
+
+set -euo pipefail
+
+echo "--- :information_source: Validate user permissions"
+if [[ -v ALLOWED_BUILDKITE_TEAM ]]; then
+  if [[ "$BUILDKITE_BUILD_CREATOR_TEAMS" != *"$ALLOWED_BUILDKITE_TEAM"* ]]; then
+    echo "--- :no_entry: Team '$ALLOWED_BUILDKITE_TEAM' is not allowed to run the pipeline in this agent"
+    exit 1
+  fi
+else
+  echo "--- :no_entry: Variable 'ALLOWED_BUILDKITE_TEAM' is unset"
+fi
+
+if [[ $(pgsql setenv "$BUILDKITE_BUILD_CREATOR_EMAIL") ]]; then
+  echo "--- :no_entry: User '$BUILDKITE_BUILD_CREATOR_EMAIL' is not allowed to run the pipeline in this agent"
+  exit 1
+fi
+
+echo "--- :white_check_mark: User access granted"
+echo "--- :house_with_garden: User environment is set"

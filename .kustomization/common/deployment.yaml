@@ -1,0 +1,55 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: buildkite-agent
+  labels:
+    app: buildkite-agent
+  annotations:
+    a8r.io/description: "Buildkite agent for kubernetes builds"
+
+spec:
+  replicas: 1
+
+  selector:
+    matchLabels:
+      app: buildkite-agent
+
+  template:
+    metadata:
+      labels:
+        app: buildkite-agent
+    spec:
+      imagePullSecrets:
+        - name: registry-credentials
+      containers:
+        - name: buildkite
+          image: buildkite-agent:latest
+          imagePullPolicy: Always
+          args:
+            - start
+            - --name=%hostname
+            - --tags=env=kubernetes
+          envFrom:
+            - secretRef:
+                name: proxy
+            - secretRef:
+                name: buildkite-agent
+          volumeMounts:
+            - name: buildkite-builds
+              mountPath: /buildkite/builds
+          resources:
+            limits:
+              cpu: 1
+              memory: 1Gi
+            requests:
+              cpu: 1
+              memory: 516Mi
+          securityContext:
+            runAsUser: 1000
+            runAsGroup: 1000
+      serviceAccountName: buildkite-agent
+      terminationGracePeriodSeconds: 900
+      volumes:
+        - name: buildkite-builds
+          emptyDir: { }

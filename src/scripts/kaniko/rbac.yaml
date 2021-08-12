@@ -1,0 +1,25 @@
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: Role
+metadata:
+  name: kaniko
+  namespace: hpc-services
+rules:
+  - apiGroups: [ policy ]
+    resources: [ podsecuritypolicies ]
+    verbs: [ use ]
+    resourceNames: [ kaniko ]
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  name: kaniko
+  namespace: hpc-services
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: Role
+  name: kaniko
+subjects:
+  - kind: ServiceAccount
+    name: sa-kaniko
+    namespace: hpc-services

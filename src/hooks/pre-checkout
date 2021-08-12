@@ -1,0 +1,10 @@
+#!/usr/bin/env bash
+
+# Hook that runs before th checkout hook.
+# This hook is meant to replace git protocol with https
+# since port 22 - used for ssh - might be blocked.
+
+set -euo pipefail
+
+# change protocol git to https
+BUILDKITE_REPO=$(sed "s/:/\//; s/git@/https:\/\/${BITBUCKET_USER}:${BITBUCKET_TOKEN}@/" <<< "$BUILDKITE_REPO")
