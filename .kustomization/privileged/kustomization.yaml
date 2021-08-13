@@ -9,4 +9,5 @@ resources:
   - ../common
   - postgres.yaml
 patchesStrategicMerge:
+  - secrets.yaml
   - deployment.yaml
