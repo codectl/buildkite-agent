@@ -20,6 +20,7 @@ metadata:
   annotations:
     a8r.io/description: "PostgreSQL initialization variables"
 stringData:
+  # Password for the postgres superuser
   POSTGRES_PASSWORD: ...
 ---
 apiVersion: apps/v1
