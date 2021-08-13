@@ -35,6 +35,8 @@ spec:
                 name: proxy
             - secretRef:
                 name: buildkite-agent
+            - secretRef:
+                name: postgres
           volumeMounts:
             - name: buildkite-builds
               mountPath: /buildkite/builds
