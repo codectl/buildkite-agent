@@ -12,6 +12,16 @@ spec:
     requests:
       storage: 100Mi
 ---
+apiVersion: v1
+kind: Secret
+type: Opaque
+metadata:
+  name: buildkite-agent
+  annotations:
+    a8r.io/description: "PostgreSQL initialization variables"
+stringData:
+  POSTGRES_PASSWORD: ...
+---
 apiVersion: apps/v1
 kind: StatefulSet
 metadata:
@@ -43,6 +53,8 @@ spec:
           envFrom:
             - secretRef:
                 name: proxy
+            - secretRef:
+                name: postgres
           volumeMounts:
             - name: pgdata
               mountPath: /var/lib/postgresql/data
@@ -76,6 +88,6 @@ spec:
   selector:
     app: postgres
   ports:
-  - port: 5432
-    name: postgres
+    - port: 5432
+      name: postgres
   type: NodePort
