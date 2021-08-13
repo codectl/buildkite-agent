@@ -16,7 +16,7 @@ apiVersion: v1
 kind: Secret
 type: Opaque
 metadata:
-  name: buildkite-agent
+  name: postgres
   annotations:
     a8r.io/description: "PostgreSQL initialization variables"
 stringData:
