@@ -21,7 +21,7 @@ spec:
         app: buildkite-agent
     spec:
       imagePullSecrets:
-        - name: registry-credentials
+        - name: docker-config
       containers:
         - name: buildkite
           image: buildkite-agent:latest
