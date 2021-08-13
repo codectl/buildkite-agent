@@ -8,7 +8,7 @@ rules:
     resources: [ podsecuritypolicies ]
     verbs: [ use ]
     resourceNames: [ privileged-buildkite-agent ]
-  - apiGroups: []
+  - apiGroups: [ "" ]
     resources: [ pods ]
     verbs: [ create, get, list update, delete, patch ]
 ---
