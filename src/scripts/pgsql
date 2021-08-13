@@ -17,8 +17,15 @@ fi
 #
 function init {
     createdb "$PGDATABASE" 2> /dev/null || true
-    psql -qc "CREATE EXTENSION IF NOT EXISTS pgcrypto;"
+    psql -qc "
+      CREATE USER \"$PGUSER\" WITH
+        NOCREATEDB
+        NOCREATEUSER
+        ENCRYPTED PASSWORD \"$PGPASSWORD\"
+      ;" 2> /dev/null || true
     psql -qc "REVOKE connect ON DATABASE \"$PGDATABASE\" FROM PUBLIC;"
+    psql -qc "GRANT ALL PRIVILEGES ON DATABASE \"$PGDATABASE\" TO \"$PGUSER\";"
+    psql -qc "CREATE EXTENSION IF NOT EXISTS pgcrypto;"
     psql -qc "
       CREATE TABLE IF NOT EXISTS tokens (
         email               VARCHAR(50) PRIMARY KEY,
