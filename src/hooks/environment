@@ -12,9 +12,12 @@ else
   echo "--- :no_entry: Variable 'ALLOWED_BUILDKITE_TEAM' is unset"
 fi
 
-if ! /buildkite-agent/scripts/pgsql init &&
-     /buildkite-agent/scripts/pgsql setenv "$BUILDKITE_BUILD_CREATOR_EMAIL"; then
+if ! err=$(
+  /buildkite-agent/scripts/pgsql init &&
+  /buildkite-agent/scripts/pgsql setenv "$BUILDKITE_BUILD_CREATOR_EMAIL"
+  ); then
   echo "--- :no_entry: User '$BUILDKITE_BUILD_CREATOR_EMAIL' is not allowed to run the pipeline in this agent"
+  echo "$err"
   exit 1
 fi
 
