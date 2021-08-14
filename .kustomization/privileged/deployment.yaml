@@ -14,4 +14,4 @@ spec:
             - --tags=env=kubernetes
             - --tags=namespace=buildkite-agent
             - --tags=privileged=true
-            - --kaniko=true
+            - --tags=kaniko=true
