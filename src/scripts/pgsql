@@ -41,8 +41,8 @@ function init {
         email               VARCHAR(50) PRIMARY KEY,
         bitbucket_user      VARCHAR(50) UNIQUE,
         bitbucket_token     VARCHAR,
-        artifactory_user    VARCHAR(50) UNIQUE,
-        artifactory_token   VARCHAR
+        registry_user       VARCHAR(50) UNIQUE,
+        registry_token      VARCHAR
       );
     "
     psql -qc "
@@ -51,7 +51,7 @@ function init {
         BEGIN
           IF (TG_OP = 'INSERT') OR (TG_OP = 'UPDATE') THEN
             NEW.bitbucket_token = PGP_SYM_ENCRYPT(NEW.bitbucket_token, '$AES256_KEY');
-            NEW.artifactory_token = PGP_SYM_ENCRYPT(NEW.artifactory_token, '$AES256_KEY');
+            NEW.artifactory_token = PGP_SYM_ENCRYPT(NEW.registry_token, '$AES256_KEY');
             RETURN NEW;
           END IF;
         END;
@@ -80,8 +80,8 @@ function setenv {
     SELECT email,
       bitbucket_user,
       PGP_SYM_DECRYPT(bitbucket_token::bytea, '$AES256_KEY') AS bitbucket_token,
-      artifactory_user,
-      PGP_SYM_DECRYPT(artifactory_token::bytea, '$AES256_KEY') AS artifactory_token
+      registry_user,
+      PGP_SYM_DECRYPT(registry_token::bytea, '$AES256_KEY') AS registry_token
     FROM tokens WHERE email = '$EMAIL';
   " | head -2)"
 
