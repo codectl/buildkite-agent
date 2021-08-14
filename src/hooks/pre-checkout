@@ -6,5 +6,10 @@
 
 set -euo pipefail
 
+if [[ ! -v ${BITBUCKET_USER} ]] || [[ ! -v ${BITBUCKET_TOKEN} ]]; then
+  echo "Missing credentials for user '$BUILDKITE_BUILD_CREATOR_EMAIL'"
+  exit 1
+fi
+
 # change protocol git to https
 BUILDKITE_REPO=$(sed "s/:/\//; s/git@/https:\/\/${BITBUCKET_USER}:${BITBUCKET_TOKEN}@/" <<< "$BUILDKITE_REPO")
