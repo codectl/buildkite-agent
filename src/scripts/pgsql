@@ -57,7 +57,7 @@ function init {
         END;
       \$\$ LANGUAGE plpgsql;
     "
-    psql -tc "
+    psql -qc "
       CREATE TRIGGER secret_tokens_insert_update
       BEFORE INSERT OR UPDATE ON tokens
       FOR EACH ROW EXECUTE PROCEDURE hash_update_tg();
