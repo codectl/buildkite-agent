@@ -2,10 +2,6 @@
 
 set -eou pipefail
 
-# superuser
-SUPERUSER=(PGUSER=postgres PGPASSWORD="${POSTGRES_PASSWORD}")
-pgenv="env ${SUPERUSER[*]}"
-
 if [[ ! -x $(which psql) ]]; then
     echo "Command psql not installed" 1>&2
     exit 1
@@ -15,6 +11,10 @@ if [[ ! $(pg_isready) ]]; then
     echo "Connection to server failed" 1>&2
     exit 1
 fi
+
+# superuser
+SUPERUSER=(PGUSER=postgres PGPASSWORD="${POSTGRES_PASSWORD}")
+pgenv="env ${SUPERUSER[*]}"
 
 #
 # Initiate database
