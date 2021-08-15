@@ -18,6 +18,10 @@ manifest="$(mktemp)"
 
 echo "--- :kubernetes: Shipping"
 
+# define kaniko variables
+CONTEXT=$(sed "s/:/\//; s/git@/https:\/\/${BITBUCKET_USER}:${BITBUCKET_TOKEN}@/" <<< "$BITBUCKET_REPOSITORY")
+DESTINATION=${REGISTRY}/${REGISTRY_REPOSITORY}/${IMAGE_NAME}:${IMAGE_TAG:-latest}
+
 #envsubst < deployment.yml > "${manifest}"
 kubectl apply -f "$(dirname "$0")/pod.yaml"
 

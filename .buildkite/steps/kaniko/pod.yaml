@@ -9,15 +9,9 @@ spec:
       image: gcr.io/kaniko-project/executor:latest
       imagePullPolicy: IfNotPresent
       args:
-        - "--dockerfile=."
+        - "--dockerfile=Dockerfile"
         - "--context=${CONTEXT}"
-        - "--destination=${REGISTRY}/${REGISTRY_REPOSITORY}/${IMAGE_NAME}:${IMAGE_TAG:-latest}"
-      volumeMounts:
-        - name: kaniko-secret
-          mountPath: /secret
-      envFrom:
-        - secretRef:
-            name: kaniko-env
+        - "--destination=${DESTINATION}"
       resources:
         limits:
           cpu: 1
