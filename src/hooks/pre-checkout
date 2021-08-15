@@ -12,5 +12,4 @@ if [[ ! -v BITBUCKET_USER ]] || [[ ! -v BITBUCKET_TOKEN ]]; then
 fi
 
 # change protocol git to https
-export BUILDKITE_GIT_REPO=$BUILDKITE_REPO
 BUILDKITE_REPO=$(sed "s/:/\//; s/git@/https:\/\/${BITBUCKET_USER}:${BITBUCKET_TOKEN}@/" <<< "$BUILDKITE_REPO")

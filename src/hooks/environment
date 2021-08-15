@@ -17,5 +17,8 @@ if ! source /buildkite-agent/scripts/pgsql setenv "$BUILDKITE_BUILD_CREATOR_EMAI
   exit 1
 fi
 
+# save reference to git repository
+export BUILDKITE_GIT_REPO=$BUILDKITE_REPO
+
 echo "--- :white_check_mark: User access granted"
 echo "--- :house_with_garden: User environment is set"
