@@ -7,7 +7,7 @@
 set -euo pipefail
 
 if [[ ! -v BITBUCKET_USER ]] || [[ ! -v BITBUCKET_TOKEN ]]; then
-  echo "Missing credentials for user '$BUILDKITE_BUILD_CREATOR_EMAIL'"
+  echo "--- :boom: Missing credentials for user '$BUILDKITE_BUILD_CREATOR_EMAIL'" 1>&2
   exit 1
 fi
 
