@@ -29,5 +29,5 @@ spec:
         runAsUser: 0
         runAsGroup: 0
         privileged: false
-  serviceAccountName: sa-kaniko
+  serviceAccountName: kaniko
   restartPolicy: Never
