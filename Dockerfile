@@ -33,4 +33,8 @@ COPY src/hooks hooks/
 COPY src/scripts scripts/
 RUN chmod -R 0755 hooks/ scripts/
 
+# entrypoint routines
+COPY src/entrypoint/* /docker-entrypoint.d/
+RUN chmod -R 0755 /docker-entrypoint.d/
+
 ENV BUILDKITE_HOOKS_PATH /buildkite-agent/hooks
