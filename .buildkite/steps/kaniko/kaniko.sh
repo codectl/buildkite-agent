@@ -21,9 +21,11 @@ echo "--- :kubernetes: Shipping"
 # define kaniko variables
 CONTEXT=$(sed "s/:/\//; s/git@/https:\/\/${BITBUCKET_USER}:${BITBUCKET_TOKEN}@/" <<< "$BITBUCKET_CONTEXT_REPO")
 DESTINATION=${REGISTRY}/${REGISTRY_REPOSITORY}/${IMAGE_NAME}:${IMAGE_TAG:-latest}
-vars="CONTEXT=$CONTEXT DESTINATION=$DESTINATION"
 
-env "$vars" envsubst < "$(dirname "$0")/pod.yaml" > "${manifest}"
+CONTEXT="$CONTEXT" \
+DESTINATION="$DESTINATION" \
+envsubst < "$(dirname "$0")/pod.yaml" > "${manifest}"
+
 kubectl apply -f "$manifest"
 
 echo "--- :zzz: Waiting for deployment"
