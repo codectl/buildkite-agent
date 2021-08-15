@@ -28,15 +28,15 @@ function init {
     fi
 
     $pgenv createdb "$PGDATABASE" 2> /dev/null || true
-    $pgenv psql -c "
+    $pgenv psql -qc "
       CREATE USER '\"'$PGUSER\" WITH
         NOSUPERUSER NOCREATEDB NOCREATEROLE
         ENCRYPTED PASSWORD '$PGPASSWORD'
       ;" 2> /dev/null || true
-    $pgenv psql -c "GRANT ALL PRIVILEGES ON DATABASE \"$PGDATABASE\" TO \"$PGUSER\";"
-    $pgenv psql -c "REVOKE connect ON DATABASE \"$PGDATABASE\" FROM PUBLIC;"
-    psql -c "CREATE EXTENSION IF NOT EXISTS pgcrypto;"
-    psql -c "
+    $pgenv psql -qc "GRANT ALL PRIVILEGES ON DATABASE \"$PGDATABASE\" TO \"$PGUSER\";"
+    $pgenv psql -qc "REVOKE connect ON DATABASE \"$PGDATABASE\" FROM PUBLIC;"
+    psql -qc "CREATE EXTENSION IF NOT EXISTS pgcrypto;"
+    psql -qc "
       CREATE TABLE IF NOT EXISTS tokens (
         email               VARCHAR(50) PRIMARY KEY,
         bitbucket_user      VARCHAR(50) UNIQUE,
@@ -45,7 +45,7 @@ function init {
         registry_token      VARCHAR
       );
     "
-    psql -c "
+    psql -qc "
       CREATE OR REPLACE FUNCTION hash_update_tg()
       RETURNS trigger AS \$\$
         BEGIN
@@ -57,7 +57,7 @@ function init {
         END;
       \$\$ LANGUAGE plpgsql;
     "
-    psql -c "
+    psql -qc "
       CREATE TRIGGER secret_tokens_insert_update
       BEFORE INSERT OR UPDATE ON tokens
       FOR EACH ROW EXECUTE PROCEDURE hash_update_tg();
