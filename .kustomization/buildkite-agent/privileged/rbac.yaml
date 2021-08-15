@@ -9,7 +9,7 @@ rules:
     verbs: [ use ]
     resourceNames: [ privileged-buildkite-agent ]
   - apiGroups: [ "" ]
-    resources: [ pods, pods/logs, deployments, replicasets, statefulsets ]
+    resources: [ pods, pods/log, deployments, replicasets, statefulsets ]
     verbs: [ create, get, list, update, delete, patch ]
 ---
 apiVersion: rbac.authorization.k8s.io/v1
