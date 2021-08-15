@@ -51,7 +51,7 @@ function init {
         BEGIN
           IF (TG_OP = 'INSERT') OR (TG_OP = 'UPDATE') THEN
             NEW.bitbucket_token = PGP_SYM_ENCRYPT(NEW.bitbucket_token, '$AES256_KEY');
-            NEW.artifactory_token = PGP_SYM_ENCRYPT(NEW.registry_token, '$AES256_KEY');
+            NEW.registry_token = PGP_SYM_ENCRYPT(NEW.registry_token, '$AES256_KEY');
             RETURN NEW;
           END IF;
         END;
