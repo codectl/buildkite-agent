@@ -1,0 +1,4 @@
+---
+steps:
+  - label: ":docker: :kubernetes: Build image with kaniko"
+    command: ".buildkite/steps/kaniko/kaniko.sh"
