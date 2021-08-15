@@ -5,5 +5,5 @@ steps:
     agents:
       env: kubernetes
       namespace: buildkite-agent
-      privileged: true
       kaniko: true
+      privileged: true
