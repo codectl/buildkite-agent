@@ -12,6 +12,9 @@ spec:
         - "--dockerfile=Dockerfile"
         - "--context=${CONTEXT}"
         - "--destination=${DESTINATION}"
+      envFrom:
+        - secretRef:
+            name: proxy
       resources:
         limits:
           cpu: 1
