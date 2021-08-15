@@ -4,7 +4,7 @@ kind: PodSecurityPolicy
 metadata:
   name: kaniko
   annotations:
-    kubernetes.io/description: 'psp for buildkite agent pod'
+    kubernetes.io/description: 'psp for kaniko builds'
     seccomp.security.alpha.kubernetes.io/allowedProfileNames: 'docker/default'
     seccomp.security.alpha.kubernetes.io/defaultProfileName: 'docker/default'
 spec:

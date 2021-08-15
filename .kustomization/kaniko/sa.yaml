@@ -2,5 +2,4 @@
 apiVersion: v1
 kind: ServiceAccount
 metadata:
-  name: sa-kaniko
-  namespace: hpc-services
+  name: kaniko

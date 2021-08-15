@@ -1,5 +1,0 @@
-resources:
-  - psp.yaml
-  - sa.yaml
-  - rbac.yaml
-  - kaniko.yaml
