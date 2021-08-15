@@ -22,8 +22,8 @@ echo "--- :kubernetes: Shipping"
 CONTEXT=$(sed "s/:/\//; s/git@/https:\/\/${BITBUCKET_USER}:${BITBUCKET_TOKEN}@/" <<< "$BITBUCKET_REPOSITORY")
 DESTINATION=${REGISTRY}/${REGISTRY_REPOSITORY}/${IMAGE_NAME}:${IMAGE_TAG:-latest}
 
-#envsubst < deployment.yml > "${manifest}"
-kubectl apply -f "$(dirname "$0")/pod.yaml"
+env "$CONTEXT $DESTINATION" envsubst < "$(dirname "$0")/pod.yaml" > "${manifest}"
+kubectl apply -f "$manifest"
 
 echo "--- :zzz: Waiting for deployment"
 kubectl wait --for condition=available --timeout=300s -f "${manifest}"
