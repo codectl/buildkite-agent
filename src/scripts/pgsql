@@ -62,6 +62,8 @@ function init {
       BEFORE INSERT OR UPDATE ON tokens
       FOR EACH ROW EXECUTE PROCEDURE hash_update_tg();
     " 2> /dev/null || true
+
+    echo "Database initialized"
 }
 
 #
