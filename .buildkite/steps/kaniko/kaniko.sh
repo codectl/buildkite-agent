@@ -19,7 +19,7 @@ manifest="$(mktemp)"
 echo "--- :kubernetes: Shipping"
 
 #envsubst < deployment.yml > "${manifest}"
-kubectl apply -f pod.yaml
+kubectl apply -f "$(dirname "$0")/pod.yaml"
 
 echo "--- :zzz: Waiting for deployment"
 kubectl wait --for condition=available --timeout=300s -f "${manifest}"
