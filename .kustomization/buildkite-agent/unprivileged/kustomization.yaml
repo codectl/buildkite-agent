@@ -6,7 +6,7 @@ resources:
   - ns.yaml
   - psp.yaml
   - rbac.yaml
-  - ../common
+  - ../common/
 patchesStrategicMerge:
   - secrets.yaml
   - deployment.yaml

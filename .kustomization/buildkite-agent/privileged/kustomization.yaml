@@ -6,7 +6,7 @@ resources:
   - ns.yaml
   - psp.yaml
   - rbac.yaml
-  - ../common
+  - ../common/
   - postgres.yaml
 patchesStrategicMerge:
   - secrets.yaml
