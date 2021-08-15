@@ -18,7 +18,7 @@ FROM buildkite/agent:3
 
 # install dependencies
 RUN apk update
-RUN apk add postgresql-client
+RUN apk add postgresql-client gettext
 
 WORKDIR /buildkite-agent/
 
