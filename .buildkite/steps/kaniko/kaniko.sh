@@ -26,4 +26,4 @@ env "$CONTEXT $DESTINATION" envsubst < "$(dirname "$0")/pod.yaml" > "${manifest}
 kubectl apply -f "$manifest"
 
 echo "--- :zzz: Waiting for deployment"
-kubectl wait --for condition=available --timeout=300s -f "${manifest}"
+kubectl wait --for condition=complete --timeout=300s -f "${manifest}"
