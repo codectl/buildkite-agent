@@ -3,8 +3,8 @@
 set -euo pipefail
 
 # validate env parameters
-if [[ ! -v DOCKER_IMAGE ]]; then
-  echo "--- :boom: Missing 'DOCKER_IMAGE'" 1>&2
+if [[ ! -v IMAGE_NAME ]]; then
+  echo "--- :boom: Missing 'IMAGE_NAME'" 1>&2
   exit 1
 elif [[ ! -v REGISTRY ]]; then
   echo "--- :boom: Missing 'REGISTRY'" 1>&2
