@@ -16,17 +16,17 @@ fi
 
 # temporary files
 manifest="$(mktemp)"
-packages="$(mktemp -d)"
+downloads="$(mktemp -d)"
 trap 'rm -f -- "$manifest";' EXIT
-trap 'rm -rf -- "$packages";' EXIT
+trap 'rm -rf -- "$downloads";' EXIT
 
 echo "--- :kubernetes: Shipping"
 
 # download repository
-buildkite-agent artifact download "*.tar.gz" "$packages" --build "${BUILDKITE_TRIGGERED_FROM_BUILD_ID}"
+buildkite-agent artifact download "*.tar.gz" "$downloads" --build "${BUILDKITE_TRIGGERED_FROM_BUILD_ID}"
 
 # define kaniko variables
-CONTEXT="tar://$(ls "*.tar.gz")"
+CONTEXT="tar://$(ls "${downloads}/*.tar.gz")"
 DESTINATION=${REGISTRY}/${REGISTRY_REPOSITORY}/${IMAGE_NAME}:${IMAGE_TAG:-latest}
 
 CONTEXT="$CONTEXT" \
