@@ -19,8 +19,11 @@ trap 'rm -f -- "$manifest";' EXIT
 
 echo "--- :kubernetes: Shipping"
 
+# download repository
+buildkite-agent artifact download "*.tar.gz"
+
 # define kaniko variables
-CONTEXT=...
+CONTEXT="tar://$(ls "*.tar.gz")"
 DESTINATION=${REGISTRY}/${REGISTRY_REPOSITORY}/${IMAGE_NAME}:${IMAGE_TAG:-latest}
 
 CONTEXT="$CONTEXT" \
