@@ -10,11 +10,14 @@ spec:
       imagePullPolicy: IfNotPresent
       args:
         - "--dockerfile=Dockerfile"
-        - "--context=${CONTEXT}"
+        - "--context=tar://context/${ARTIFACT_FILENAME}"
         - "--destination=${DESTINATION}"
       envFrom:
         - secretRef:
             name: proxy
+      volumeMounts:
+        - name: context
+          mountPath: "/workspace/context"
       resources:
         limits:
           cpu: 1
@@ -28,3 +31,8 @@ spec:
         privileged: false
   serviceAccountName: kaniko
   restartPolicy: Never
+  volumes:
+    - name: context
+      hostPath:
+        path: ${ARTIFACT_PATH}
+        type: File
