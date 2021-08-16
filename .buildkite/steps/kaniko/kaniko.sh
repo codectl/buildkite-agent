@@ -15,11 +15,12 @@ elif [[ ! -v REGISTRY_REPOSITORY ]]; then
 fi
 
 manifest="$(mktemp)"
+trap 'rm -f -- "$manifest";' EXIT
 
 echo "--- :kubernetes: Shipping"
 
 # define kaniko variables
-CONTEXT=$(sed "s/:/\//; s/git@/https:\/\/${BITBUCKET_USER}:${BITBUCKET_TOKEN}@/" <<< "$BITBUCKET_CONTEXT_REPO")
+CONTEXT=...
 DESTINATION=${REGISTRY}/${REGISTRY_REPOSITORY}/${IMAGE_NAME}:${IMAGE_TAG:-latest}
 
 CONTEXT="$CONTEXT" \
@@ -30,3 +31,5 @@ kubectl apply -f "$manifest"
 
 echo "--- :zzz: Waiting for deployment"
 kubectl wait --for condition=complete --timeout=300s -f "${manifest}"
+
+rm "${manifest}"
