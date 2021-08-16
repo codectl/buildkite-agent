@@ -26,7 +26,7 @@ echo "--- :kubernetes: Shipping"
 buildkite-agent artifact download "*.tar.gz" "$downloads" --build "${BUILDKITE_TRIGGERED_FROM_BUILD_ID}"
 
 # define kaniko variables
-CONTEXT="tar://$(ls "${downloads}/*.tar.gz")"
+CONTEXT="tar://$(ls "${downloads}"/*.tar.gz)"
 DESTINATION=${REGISTRY}/${REGISTRY_REPOSITORY}/${IMAGE_NAME}:${IMAGE_TAG:-latest}
 
 CONTEXT="$CONTEXT" \
