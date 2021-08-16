@@ -18,7 +18,7 @@ FROM buildkite/agent:3
 
 # install dependencies
 RUN apk update
-RUN apk add postgresql-client gettext
+RUN apk add postgresql-client jfrog-cli-v2 gettext
 
 WORKDIR /buildkite-agent/
 
