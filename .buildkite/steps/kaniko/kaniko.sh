@@ -14,13 +14,16 @@ elif [[ ! -v REGISTRY_REPOSITORY ]]; then
   exit 1
 fi
 
+# temporary files
 manifest="$(mktemp)"
+packages="$(mktemp -d)"
 trap 'rm -f -- "$manifest";' EXIT
+trap 'rm -rf -- "$packages";' EXIT
 
 echo "--- :kubernetes: Shipping"
 
 # download repository
-buildkite-agent artifact download "*.tar.gz" --build "${BUILDKITE_TRIGGERED_FROM_BUILD_ID}"
+buildkite-agent artifact download "*.tar.gz" "$packages" --build "${BUILDKITE_TRIGGERED_FROM_BUILD_ID}"
 
 # define kaniko variables
 CONTEXT="tar://$(ls "*.tar.gz")"
