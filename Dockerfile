@@ -11,7 +11,7 @@ WORKDIR /root/
 # steps described on https://kubernetes.io/docs/tasks/tools/install-kubectl-linux/
 RUN curl -L "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl" -o kubectl
 RUN curl -L "https://dl.k8s.io/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl.sha256" -o kubectl.sha256
-RUN curl -L "https://getcli.jfrog.io" | bash
+RUN curl -L "https://getcli.jfrog.io" | sh
 RUN echo "$(cat kubectl.sha256)  kubectl" | sha256sum -c
 
 # extend Buildkite agent
@@ -19,7 +19,7 @@ FROM buildkite/agent:3
 
 # install dependencies
 RUN apk update
-RUN apk add postgresql-client jfrog-cli-v2 gettext
+RUN apk add postgresql-client gettext
 
 WORKDIR /buildkite-agent/
 
