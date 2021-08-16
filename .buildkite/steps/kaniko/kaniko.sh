@@ -20,7 +20,7 @@ trap 'rm -f -- "$manifest";' EXIT
 echo "--- :kubernetes: Shipping"
 
 # download repository
-buildkite-agent artifact download "*.tar.gz" --build "${BUILDKITE_TRIGGER_BUILD_ID}"
+buildkite-agent artifact download "*.tar.gz" --build "${BUILDKITE_TRIGGERED_FROM_BUILD_ID}"
 
 # define kaniko variables
 CONTEXT="tar://$(ls "*.tar.gz")"
