@@ -16,20 +16,13 @@ fi
 
 # temporary files
 manifest="$(mktemp)"
-downloads="$(mktemp -d)"
-
 echo "--- :kubernetes: Shipping"
 
-# download repository
-buildkite-agent artifact download "*.tar.gz" "$downloads" --build "${BUILDKITE_TRIGGERED_FROM_BUILD_ID}"
-
 # define pod kaniko variables
-ARTIFACT_PATH="${downloads}"
-ARTIFACT_FILENAME="$(ls "${downloads}"/*.tar.gz)"
-DESTINATION=${REGISTRY}/${REGISTRY_REPOSITORY}/${IMAGE_NAME}:${IMAGE_TAG:-latest}
+CONTEXT="${REGISTRY}/artifactory/${REGISTRY_REPOSITORY}/${IMAGE_NAME}:${IMAGE_TAG}.tar.gz"
+DESTINATION=${REGISTRY}/${REGISTRY_REPOSITORY}/${IMAGE_NAME}:${IMAGE_TAG}
 
-ARTIFACT_PATH="$ARTIFACT_PATH" \
-ARTIFACT_FILENAME="$ARTIFACT_FILENAME" \
+CONTEXT="$CONTEXT"
 DESTINATION="$DESTINATION" \
 envsubst < "$(dirname "$0")/pod.yaml" > "${manifest}"
 
@@ -40,4 +33,3 @@ kubectl wait --for condition=complete --timeout=300s -f "${manifest}"
 
 # cleanup
 rm -f -- "$manifest"
-rm -rf -- "$downloads"
