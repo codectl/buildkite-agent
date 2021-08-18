@@ -19,8 +19,10 @@ manifest="$(mktemp)"
 echo "--- :kubernetes: Shipping"
 
 # define pod kaniko variables
-CONTEXT="${REGISTRY}/artifactory/${REGISTRY_REPOSITORY}/${IMAGE_NAME}:${IMAGE_TAG}.tar.gz"
-DESTINATION="https://${REGISTRY}/${REGISTRY_REPOSITORY}/${IMAGE_NAME}:${IMAGE_TAG}"
+artifact="${IMAGE_NAME}:${IMAGE_TAG}.tar.gz"
+credentials="${REGISTRY_USER}:${REGISTRY_TOKEN}"
+CONTEXT="https://${credentials}@${REGISTRY}/artifactory/${REGISTRY_REPOSITORY}/${artifact}"
+DESTINATION="https://${credentials}@${REGISTRY}/${REGISTRY_REPOSITORY}/${IMAGE_NAME}:${IMAGE_TAG}"
 
 CONTEXT="$CONTEXT" \
 DESTINATION="$DESTINATION" \
