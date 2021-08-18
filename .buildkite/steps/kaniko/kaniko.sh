@@ -22,7 +22,7 @@ echo "--- :kubernetes: Shipping"
 CONTEXT="${REGISTRY}/artifactory/${REGISTRY_REPOSITORY}/${IMAGE_NAME}:${IMAGE_TAG}.tar.gz"
 DESTINATION="https://${REGISTRY}/${REGISTRY_REPOSITORY}/${IMAGE_NAME}:${IMAGE_TAG}"
 
-CONTEXT="$CONTEXT"
+CONTEXT="$CONTEXT" \
 DESTINATION="$DESTINATION" \
 envsubst < "$(dirname "$0")/pod.yaml" > "${manifest}"
 
