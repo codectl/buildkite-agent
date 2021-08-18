@@ -28,4 +28,3 @@ spec:
         privileged: false
   serviceAccountName: kaniko
   restartPolicy: Never
-  ttlSecondsAfterFinished: 0

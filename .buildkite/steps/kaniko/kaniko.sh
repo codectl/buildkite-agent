@@ -16,7 +16,7 @@ fi
 
 # temporary files
 manifest="$(mktemp)"
-echo "--- :kubernetes: Shipping"
+echo "--- :kubernetes: Shipping image :docker:"
 
 # define pod kaniko variables
 artifact="${IMAGE_NAME}:${IMAGE_TAG}.tar.gz"
@@ -28,9 +28,11 @@ CONTEXT="$CONTEXT" \
 DESTINATION="$DESTINATION" \
 envsubst < "$(dirname "$0")/pod.yaml" > "${manifest}"
 
+# start / restart pod execution
+kubectl delete -f "$manifest" --ignore-not-found
 kubectl apply -f "$manifest"
 
-echo "--- :zzz: Waiting for deployment"
+echo "--- :zzz: Waiting for completion"
 kubectl wait --for condition=complete --timeout=300s -f "${manifest}"
 
 # cleanup
