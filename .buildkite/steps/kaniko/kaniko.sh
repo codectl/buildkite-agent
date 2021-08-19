@@ -35,9 +35,6 @@ artifact="${IMAGE_NAME}:${IMAGE_TAG}.tar.gz"
 credentials="${REGISTRY_USER}:${REGISTRY_TOKEN}"
 CONTEXT="https://${credentials}@${REGISTRY}/artifactory/${REGISTRY_REPOSITORY}/${artifact}"
 DESTINATION="${REGISTRY}/${REGISTRY_REPOSITORY}/${IMAGE_NAME}:${IMAGE_TAG}"
-HTTP_PROXY="${HTTP_PROXY}" \
-  HTTPS_PROXY="${HTTPS_PROXY}" \
-  NO_PROXY="${NO_PROXY}" \
   CONTEXT="$CONTEXT" \
   DESTINATION="$DESTINATION" \
   envsubst <"$(dirname "$0")/pod.yaml" >"${manifest}"
