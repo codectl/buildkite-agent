@@ -19,8 +19,8 @@ spec:
         - "--build-arg=http_proxy=${HTTP_PROXY}"
         - "--build-arg=https_proxy=${HTTPS_PROXY}"
         - "--build-arg=no_proxy=${NO_PROXY}"
-        - "--ski-tls-verify"
-        - "--ski-tls-verify-pull"
+        - "--skip-tls-verify"
+        - "--skip-tls-verify-pull"
       envFrom:
         - secretRef:
             name: proxy
