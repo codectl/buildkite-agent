@@ -4,7 +4,6 @@ kind: Secret
 type: Opaque
 metadata:
   name: proxy
-  namespace: services
 stringData:
   HTTP_PROXY: ...
   HTTPS_PROXY: ...
