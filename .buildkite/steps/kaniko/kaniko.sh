@@ -21,7 +21,11 @@ config="${tmpdir}/config.json"
 echo "--- :kubernetes: Shipping image :docker:"
 
 # setup registry docker context
-CREDENTIALS=$(echo -n "${REGISTRY_USER}:${REGISTRY_TOKEN}" | base64 | tr -d '\n') \
+HTTP_PROXY="${HTTP_PROXY}" \
+  HTTPS_PROXY="${HTTPS_PROXY}" \
+  NO_PROXY="${NO_PROXY}" \
+  REGISTRY="$REGISTRY" \
+  CREDENTIALS=$(echo -n "${REGISTRY_USER}:${REGISTRY_TOKEN}" | base64 | tr -d '\n') \
   envsubst <"$(dirname "$0")/dockerconfig.json" >"${config}"
 kubectl delete configmap docker-config --ignore-not-found
 kubectl create configmap docker-config --from-file "${config}"
@@ -31,10 +35,7 @@ artifact="${IMAGE_NAME}:${IMAGE_TAG}.tar.gz"
 credentials="${REGISTRY_USER}:${REGISTRY_TOKEN}"
 CONTEXT="https://${credentials}@${REGISTRY}/artifactory/${REGISTRY_REPOSITORY}/${artifact}"
 DESTINATION="${REGISTRY}/${REGISTRY_REPOSITORY}/${IMAGE_NAME}:${IMAGE_TAG}"
-HTTP_PROXY="${HTTP_PROXY}" \
-  HTTPS_PROXY="${HTTPS_PROXY}" \
-  NO_PROXY="${NO_PROXY}" \
-  CONTEXT="$CONTEXT" \
+CONTEXT="$CONTEXT" \
   DESTINATION="$DESTINATION" \
   envsubst <"$(dirname "$0")/pod.yaml" >"${manifest}"
 
