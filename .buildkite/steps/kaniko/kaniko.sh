@@ -20,7 +20,6 @@ echo "--- :kubernetes: Shipping image :docker:"
 
 # define pod kaniko variables
 artifact="${IMAGE_NAME}:${IMAGE_TAG}.tar.gz"
-credentials="${REGISTRY_USER}:${REGISTRY_TOKEN}"
 CONTEXT="https://${REGISTRY}/artifactory/${REGISTRY_REPOSITORY}/${artifact}"
 DESTINATION="https://${REGISTRY}/${REGISTRY_REPOSITORY}/${IMAGE_NAME}:${IMAGE_TAG}"
 
@@ -37,7 +36,7 @@ kubectl delete -f "$manifest" --ignore-not-found
 kubectl apply -f "$manifest"
 
 echo "--- :zzz: Waiting for completion"
-kubectl wait --for condition=complete --timeout=300s -f "${manifest}"
+kubectl wait --for condition=complete --timeout=100s -f "${manifest}"
 
 # cleanup
 rm -f -- "$manifest"
