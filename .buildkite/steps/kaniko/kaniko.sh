@@ -21,14 +21,18 @@ echo "--- :kubernetes: Shipping image :docker:"
 # define pod kaniko variables
 artifact="${IMAGE_NAME}:${IMAGE_TAG}.tar.gz"
 credentials="${REGISTRY_USER}:${REGISTRY_TOKEN}"
-CONTEXT="https://${credentials}@${REGISTRY}/artifactory/${REGISTRY_REPOSITORY}/${artifact}"
-DESTINATION="https://${credentials}@${REGISTRY}/${REGISTRY_REPOSITORY}/${IMAGE_NAME}:${IMAGE_TAG}"
+CONTEXT="https://${REGISTRY}/artifactory/${REGISTRY_REPOSITORY}/${artifact}"
+DESTINATION="https://${REGISTRY}/${REGISTRY_REPOSITORY}/${IMAGE_NAME}:${IMAGE_TAG}"
 
 CONTEXT="$CONTEXT" \
 DESTINATION="$DESTINATION" \
 envsubst < "$(dirname "$0")/pod.yaml" > "${manifest}"
 
 # start / restart pod execution
+kubectl create secret docker-registry registry-context \
+--docker-server="${REGISTRY}" \
+--docker-username="${REGISTRY_USER}" \
+--docker-password="${REGISTRY_TOKEN}"
 kubectl delete -f "$manifest" --ignore-not-found
 kubectl apply -f "$manifest"
 
