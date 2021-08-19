@@ -19,6 +19,11 @@ spec:
         - "--build-arg=http_proxy=${HTTP_PROXY}"
         - "--build-arg=https_proxy=${HTTPS_PROXY}"
         - "--build-arg=no_proxy=${NO_PROXY}"
+        - "--skip-tls-verify"
+        - "--skip-tls-verify-pull"
+      env:
+        - name: GIT_SSL_NO_VERIFY
+          value: "true"
       envFrom:
         - secretRef:
             name: proxy
