@@ -35,7 +35,7 @@ artifact="${IMAGE_NAME}:${IMAGE_TAG}.tar.gz"
 credentials="${REGISTRY_USER}:${REGISTRY_TOKEN}"
 CONTEXT="https://${credentials}@${REGISTRY}/artifactory/${REGISTRY_REPOSITORY}/${artifact}"
 DESTINATION="${REGISTRY}/${REGISTRY_REPOSITORY}/${IMAGE_NAME}:${IMAGE_TAG}"
-  CONTEXT="$CONTEXT" \
+CONTEXT="$CONTEXT" \
   DESTINATION="$DESTINATION" \
   envsubst <"$(dirname "$0")/pod.yaml" >"${manifest}"
 
@@ -44,7 +44,7 @@ kubectl delete -f "$manifest" --ignore-not-found
 kubectl apply -f "$manifest"
 
 echo "--- :zzz: Waiting for completion"
-kubectl wait --for condition=complete --timeout=100s -f "${manifest}"
+kubectl wait --for condition=complete --timeout=300s -f "${manifest}"
 
 # cleanup
 kubectl delete secret registry-context
