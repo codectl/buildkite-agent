@@ -20,7 +20,8 @@ manifest="${tmpdir}/manifest.yaml"
 echo "--- :kubernetes: Shipping image :docker:"
 
 # set docker registry credentials
-kubectl create secret docker-registry registry-context --force \
+kubectl delete secret registry-context --ignore-not-found
+kubectl create secret docker-registry registry-context \
 --docker-server="${REGISTRY}" \
 --docker-username="${REGISTRY_USER}" \
 --docker-password="${REGISTRY_TOKEN}"
