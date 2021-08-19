@@ -17,7 +17,7 @@ spec:
             name: proxy
       volumeMounts:
         - name: dockerconfig
-          mountPath: "/root/.docker"
+          mountPath: "/root/.docker/config.json"
       resources:
         limits:
           cpu: 1
