@@ -24,6 +24,9 @@ spec:
       envFrom:
         - secretRef:
             name: proxy
+      env:
+        - name: GIT_SSL_NO_VERIFY
+          value: true
       volumeMounts:
         - name: docker-config
           mountPath: /kaniko/.docker/
