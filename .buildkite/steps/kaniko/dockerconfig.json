@@ -1,7 +1,0 @@
-{
-  "auths": {
-    "${REGISTRY}": {
-      "auth": "${CREDENTIALS}"
-    }
-  }
-}

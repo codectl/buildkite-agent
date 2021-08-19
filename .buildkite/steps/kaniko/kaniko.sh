@@ -17,13 +17,13 @@ fi
 # temporary files
 tmpdir=$(mktemp -d)
 manifest="${tmpdir}/manifest.yaml"
-config="${tmpdir}/config.json"
 echo "--- :kubernetes: Shipping image :docker:"
 
-# setup registry docker context
-REGISTRY="$REGISTRY" \
-CREDENTIALS=$(echo -n "${REGISTRY_USER}:${REGISTRY_TOKEN}" | base64 | tr -d '\n') \
-envsubst < "$(dirname "$0")/dockerconfig.json" > "${config}"
+# set docker registry credentials
+kubectl create secret docker-registry registry-context \
+--docker-server="${REGISTRY}" \
+--docker-username="${REGISTRY_USER}" \
+--docker-password="${REGISTRY_TOKEN}"
 
 # define pod kaniko variables
 artifact="${IMAGE_NAME}:${IMAGE_TAG}.tar.gz"
@@ -32,9 +32,9 @@ DESTINATION="https://${REGISTRY}/${REGISTRY_REPOSITORY}/${IMAGE_NAME}:${IMAGE_TA
 
 CONTEXT="$CONTEXT" \
 DESTINATION="$DESTINATION" \
-DOCKERCONFIG="$config" \
 envsubst < "$(dirname "$0")/pod.yaml" > "${manifest}"
 
+# start / restart pod execution
 kubectl delete -f "$manifest" --ignore-not-found
 kubectl apply -f "$manifest"
 

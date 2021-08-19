@@ -15,10 +15,8 @@ spec:
       envFrom:
         - secretRef:
             name: proxy
-      volumeMounts:
-        - name: dockerconfig
-          mountPath: "/root/.docker/config.json"
-          readOnly: true
+        - secretRef:
+            name: registry-context
       resources:
         limits:
           cpu: 1
@@ -32,8 +30,3 @@ spec:
         privileged: false
   serviceAccountName: kaniko
   restartPolicy: Never
-  volumes:
-    - name: dockerconfig
-      hostPath:
-        path: ${DOCKERCONFIG}
-        type: File
