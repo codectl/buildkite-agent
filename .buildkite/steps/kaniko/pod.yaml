@@ -21,12 +21,12 @@ spec:
         - "--build-arg=no_proxy=${NO_PROXY}"
         - "--skip-tls-verify"
         - "--skip-tls-verify-pull"
+      env:
+        - name: GIT_SSL_NO_VERIFY
+          value: "true"
       envFrom:
         - secretRef:
             name: proxy
-      env:
-        - name: GIT_SSL_NO_VERIFY
-          value: true
       volumeMounts:
         - name: docker-config
           mountPath: /kaniko/.docker/
