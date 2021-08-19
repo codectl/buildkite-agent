@@ -42,4 +42,5 @@ echo "--- :zzz: Waiting for completion"
 kubectl wait --for condition=complete --timeout=100s -f "${manifest}"
 
 # cleanup
+kubectl delete secret registry-context
 rm -rf -- "$tmpdir"
