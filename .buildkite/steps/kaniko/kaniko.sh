@@ -29,7 +29,8 @@ kubectl create configmap docker-config --from-file "${config}"
 
 # define pod kaniko variables
 artifact="${IMAGE_NAME}:${IMAGE_TAG}.tar.gz"
-CONTEXT="https://${REGISTRY}/artifactory/${REGISTRY_REPOSITORY}/${artifact}"
+credentials="${REGISTRY_USER}:${REGISTRY_TOKEN}"
+CONTEXT="https://${credentials}@${REGISTRY}/artifactory/${REGISTRY_REPOSITORY}/${artifact}"
 DESTINATION="${REGISTRY}/${REGISTRY_REPOSITORY}/${IMAGE_NAME}:${IMAGE_TAG}"
 CONTEXT="$CONTEXT" \
 DESTINATION="$DESTINATION" \
