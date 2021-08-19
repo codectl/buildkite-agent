@@ -35,5 +35,6 @@ spec:
     - configMap
     - secret
     - emptyDir
+    - hostPath
     - persistentVolumeClaim
   readOnlyRootFilesystem: false
