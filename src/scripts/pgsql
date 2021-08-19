@@ -50,7 +50,7 @@ function init {
       RETURNS trigger AS \$\$
         BEGIN
           IF (TG_OP = 'INSERT') OR (TG_OP = 'UPDATE') THEN
-            IF OLD.bitbucket_token IS NULL OR OR NEW.bitbucket_token != OLD.bitbucket_token THEN
+            IF OLD.bitbucket_token IS NULL OR NEW.bitbucket_token != OLD.bitbucket_token THEN
               NEW.bitbucket_token = PGP_SYM_ENCRYPT(NEW.bitbucket_token, '$AES256_KEY');
             END IF;
             IF OLD.registry_token IS NULL OR NEW.registry_token != OLD.registry_token THEN
