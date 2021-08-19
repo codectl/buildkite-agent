@@ -15,8 +15,15 @@ elif [[ ! -v REGISTRY_REPOSITORY ]]; then
 fi
 
 # temporary files
-manifest="$(mktemp)"
+tmpdir=$(mktemp -d)
+manifest="${tmpdir}/manifest.yaml"
+config="${tmpdir}/config.json"
 echo "--- :kubernetes: Shipping image :docker:"
+
+# setup registry docker context
+REGISTRY="$REGISTRY" \
+CREDENTIALS=$(base64 <<< "${REGISTRY_USER}:${REGISTRY_TOKEN}") \
+envsubst < "$(dirname "$0")/config.json" > "${config}"
 
 # define pod kaniko variables
 artifact="${IMAGE_NAME}:${IMAGE_TAG}.tar.gz"
@@ -32,6 +39,7 @@ kubectl create secret docker-registry registry-context \
 --docker-server="${REGISTRY}" \
 --docker-username="${REGISTRY_USER}" \
 --docker-password="${REGISTRY_TOKEN}"
+
 kubectl delete -f "$manifest" --ignore-not-found
 kubectl apply -f "$manifest"
 
@@ -39,4 +47,4 @@ echo "--- :zzz: Waiting for completion"
 kubectl wait --for condition=complete --timeout=100s -f "${manifest}"
 
 # cleanup
-rm -f -- "$manifest"
+rm -rf -- "$tmpdir"
