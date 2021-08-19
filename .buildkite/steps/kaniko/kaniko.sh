@@ -28,11 +28,10 @@ kubectl create secret docker-registry registry-context \
 
 # define pod kaniko variables
 artifact="${IMAGE_NAME}:${IMAGE_TAG}.tar.gz"
-credentials="${REGISTRY_USER}:${REGISTRY_USER}"
+credentials="${REGISTRY_USER}:${REGISTRY_TOKEN}"
 CONTEXT="https://${credentials}@${REGISTRY}/artifactory/${REGISTRY_REPOSITORY}/${artifact}"
 DESTINATION="https://${REGISTRY}/${REGISTRY_REPOSITORY}/${IMAGE_NAME}:${IMAGE_TAG}"
 
-echo $CONTEXT
 CONTEXT="$CONTEXT" \
 DESTINATION="$DESTINATION" \
 envsubst < "$(dirname "$0")/pod.yaml" > "${manifest}"

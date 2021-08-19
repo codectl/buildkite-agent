@@ -15,8 +15,8 @@ spec:
       envFrom:
         - secretRef:
             name: proxy
-#        - secretRef:
-#            name: registry-context
+        - secretRef:
+            name: registry-context
       resources:
         limits:
           cpu: 1
