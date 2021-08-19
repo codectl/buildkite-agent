@@ -17,21 +17,20 @@ fi
 # temporary files
 tmpdir=$(mktemp -d)
 manifest="${tmpdir}/manifest.yaml"
+config="${tmpdir}/config.json"
 echo "--- :kubernetes: Shipping image :docker:"
 
-# set docker registry credentials
+# setup registry docker context
+REGISTRY="$REGISTRY" \
+CREDENTIALS=$(echo -n "${REGISTRY_USER}:${REGISTRY_TOKEN}" | base64 | tr -d '\n') \
+envsubst < "$(dirname "$0")/dockerconfig.json" > "${config}"
 kubectl delete secret registry-context --ignore-not-found
-kubectl create secret docker-registry registry-context \
---docker-server="${REGISTRY}" \
---docker-username="${REGISTRY_USER}" \
---docker-password="${REGISTRY_TOKEN}"
+kubectl create configmap docker-config --from-file "${config}"
 
 # define pod kaniko variables
 artifact="${IMAGE_NAME}:${IMAGE_TAG}.tar.gz"
-credentials="${REGISTRY_USER}:${REGISTRY_TOKEN}"
-CONTEXT="https://${credentials}@${REGISTRY}/artifactory/${REGISTRY_REPOSITORY}/${artifact}"
-DESTINATION="${credentials}@${REGISTRY}/${REGISTRY_REPOSITORY}/${IMAGE_NAME}:${IMAGE_TAG}"
-
+CONTEXT="https://${REGISTRY}/artifactory/${REGISTRY_REPOSITORY}/${artifact}"
+DESTINATION="${REGISTRY}/${REGISTRY_REPOSITORY}/${IMAGE_NAME}:${IMAGE_TAG}"
 CONTEXT="$CONTEXT" \
 DESTINATION="$DESTINATION" \
 envsubst < "$(dirname "$0")/pod.yaml" > "${manifest}"
