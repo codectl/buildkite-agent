@@ -24,7 +24,7 @@ echo "--- :kubernetes: Shipping image :docker:"
 REGISTRY="$REGISTRY" \
 CREDENTIALS=$(echo -n "${REGISTRY_USER}:${REGISTRY_TOKEN}" | base64 | tr -d '\n') \
 envsubst < "$(dirname "$0")/dockerconfig.json" > "${config}"
-kubectl delete secret registry-context --ignore-not-found
+kubectl delete configmap docker-config --ignore-not-found
 kubectl create configmap docker-config --from-file "${config}"
 
 # define pod kaniko variables
