@@ -22,7 +22,7 @@ echo "--- :kubernetes: Shipping image :docker:"
 
 # setup registry docker context
 REGISTRY="$REGISTRY" \
-CREDENTIALS=$(base64 <<< "${REGISTRY_USER}:${REGISTRY_TOKEN}") \
+CREDENTIALS=$(echo -n "${REGISTRY_USER}:${REGISTRY_TOKEN}" | base64 | tr -d '\n') \
 envsubst < "$(dirname "$0")/dockerconfig.json" > "${config}"
 
 # define pod kaniko variables
