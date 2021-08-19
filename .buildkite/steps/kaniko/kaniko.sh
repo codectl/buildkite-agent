@@ -32,6 +32,7 @@ DESTINATION="https://${REGISTRY}/${REGISTRY_REPOSITORY}/${IMAGE_NAME}:${IMAGE_TA
 
 CONTEXT="$CONTEXT" \
 DESTINATION="$DESTINATION" \
+DOCKERCONFIG="$config" \
 envsubst < "$(dirname "$0")/pod.yaml" > "${manifest}"
 
 kubectl delete -f "$manifest" --ignore-not-found
