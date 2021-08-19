@@ -32,6 +32,7 @@ credentials="${REGISTRY_USER}:${REGISTRY_USER}"
 CONTEXT="https://${credentials}@${REGISTRY}/artifactory/${REGISTRY_REPOSITORY}/${artifact}"
 DESTINATION="https://${REGISTRY}/${REGISTRY_REPOSITORY}/${IMAGE_NAME}:${IMAGE_TAG}"
 
+echo $CONTEXT
 CONTEXT="$CONTEXT" \
 DESTINATION="$DESTINATION" \
 envsubst < "$(dirname "$0")/pod.yaml" > "${manifest}"
