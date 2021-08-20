@@ -4,4 +4,4 @@ kind: Kustomization
 namespace: buildkite-agent
 resources:
   - ns.yaml
-  - ../base/proxy.yaml
+  - ../base/
