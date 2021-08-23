@@ -4,41 +4,47 @@ kind: Job
 metadata:
   name: kaniko
 spec:
-  containers:
-    - name: kaniko
-      image: gcr.io/kaniko-project/executor:latest
-      imagePullPolicy: IfNotPresent
-      args:
-        - "--dockerfile=Dockerfile"
-        - "--context=${CONTEXT}"
-        - "--destination=${DESTINATION}"
-        # needed proxy settings as build vars
-        - "--build-arg=HTTP_PROXY=${HTTP_PROXY}"
-        - "--build-arg=HTTPS_PROXY=${HTTPS_PROXY}"
-        - "--build-arg=NO_PROXY=${NO_PROXY}"
-      envFrom:
-        - secretRef:
-            name: proxy
-      volumeMounts:
+  template:
+    spec:
+      containers:
+        - name: kaniko
+          image: gcr.io/kaniko-project/executor:latest
+          imagePullPolicy: IfNotPresent
+          args:
+            - "--dockerfile=Dockerfile"
+            - "--context=${CONTEXT}"
+            - "--destination=${DESTINATION}"
+            # needed proxy settings as build vars
+            - "--build-arg=HTTP_PROXY=${HTTP_PROXY}"
+            - "--build-arg=HTTPS_PROXY=${HTTPS_PROXY}"
+            - "--build-arg=NO_PROXY=${NO_PROXY}"
+          envFrom:
+            - secretRef:
+                name: proxy
+          volumeMounts:
+            - name: docker-config
+              mountPath: /kaniko/.docker/
+          resources:
+            limits:
+              cpu: 1
+              memory: 516Mi
+            requests:
+              cpu: 1
+              memory: 516Mi
+          securityContext:
+            runAsUser: 0
+            runAsGroup: 0
+            privileged: false
+            capabilities:
+              add:
+                - CHOWN
+      serviceAccountName: kaniko
+      restartPolicy: Never
+      volumes:
         - name: docker-config
-          mountPath: /kaniko/.docker/
-      resources:
-        limits:
-          cpu: 1
-          memory: 516Mi
-        requests:
-          cpu: 1
-          memory: 516Mi
-      securityContext:
-        runAsUser: 0
-        runAsGroup: 0
-        privileged: false
-        capabilities:
-          add:
-            - CHOWN
-  serviceAccountName: kaniko
-  restartPolicy: Never
-  volumes:
-    - name: docker-config
-      configMap:
-        name: docker-config
+          configMap:
+            name: docker-config
+  parallelism: 1
+  completions: 1
+  backoffLimit: 1
+  activeDeadlineSeconds: 300
