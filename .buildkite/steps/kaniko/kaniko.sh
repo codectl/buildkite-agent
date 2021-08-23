@@ -47,5 +47,5 @@ echo "--- :docker: Waiting build ..."
 kubectl logs kaniko --follow
 
 # cleanup
-kubectl delete secret registry-context
+kubectl delete configmap docker-config
 rm -rf -- "$tmpdir"
