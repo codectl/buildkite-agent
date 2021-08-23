@@ -44,8 +44,7 @@ kubectl delete -f "$manifest" --ignore-not-found
 kubectl apply -f "$manifest"
 
 echo "--- :docker: Waiting build ..."
-kubectl logs kaniko --follow &
-kubectl wait --for condition=complete --timeout=300s pods/kaniko
+kubectl logs kaniko --follow
 
 # cleanup
 kubectl delete secret registry-context
