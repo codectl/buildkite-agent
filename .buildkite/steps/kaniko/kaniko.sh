@@ -37,7 +37,7 @@ HTTP_PROXY="${HTTP_PROXY}" \
   NO_PROXY="${NO_PROXY}" \
   CONTEXT="$CONTEXT" \
   DESTINATION="$DESTINATION" \
-  envsubst <"$(dirname "$0")/pod.yaml" >"${manifest}"
+  envsubst <"$(dirname "$0")/job.yaml" >"${manifest}"
 
 # start / restart pod execution
 kubectl delete -f "$manifest" --ignore-not-found
