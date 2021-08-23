@@ -35,9 +35,6 @@ spec:
             runAsUser: 0
             runAsGroup: 0
             privileged: false
-            capabilities:
-              add:
-                - CHOWN
       serviceAccountName: kaniko
       restartPolicy: Never
       volumes:

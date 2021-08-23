@@ -26,3 +26,5 @@ roleRef:
 subjects:
   - kind: ServiceAccount
     name: buildkite-agent
+  - kind: ServiceAccount
+    name: buildkite-agent

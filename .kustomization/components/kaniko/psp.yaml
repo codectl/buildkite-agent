@@ -5,14 +5,14 @@ metadata:
   name: kaniko
   annotations:
     kubernetes.io/description: 'psp for kaniko builds'
-    seccomp.security.alpha.kubernetes.io/allowedProfileNames: 'docker/default'
-    seccomp.security.alpha.kubernetes.io/defaultProfileName: 'docker/default'
+    seccomp.security.alpha.kubernetes.io/allowedProfileNames: 'runtime/default'
+    seccomp.security.alpha.kubernetes.io/defaultProfileName: 'runtime/default'
 spec:
   privileged: false
   allowPrivilegeEscalation: false
 
   allowedCapabilities: [ ]
-  requiredDropCapabilities: [ ALL ]
+  requiredDropCapabilities: [ ]
   defaultAddCapabilities: [ ]
 
   hostNetwork: false
