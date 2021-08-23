@@ -44,8 +44,8 @@ kubectl delete -f "$manifest" --ignore-not-found
 kubectl apply -f "$manifest"
 
 echo "--- :docker: Waiting build completion ..."
-kubectl logs kaniko --follow &
-kubectl wait --for condition=complete --timeout=300s --selector app=kaniko
+kubectl logs --selector app=kaniko --follow &
+kubectl wait --for condition=complete --timeout=300s jobs/kaniko
 
 # cleanup
 kubectl delete configmap docker-config
