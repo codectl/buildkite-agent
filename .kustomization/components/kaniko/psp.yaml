@@ -11,7 +11,8 @@ spec:
   privileged: false
   allowPrivilegeEscalation: false
 
-  allowedCapabilities: [ ]
+  allowedCapabilities:
+    - CHOWN
   requiredDropCapabilities: [ ]
   defaultAddCapabilities: [ ]
 
