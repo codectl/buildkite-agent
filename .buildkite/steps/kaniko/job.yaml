@@ -14,7 +14,14 @@ spec:
   backoffLimit: 1
   activeDeadlineSeconds: 300
 
+  selector:
+    matchLabels:
+      app: kaniko
+
   template:
+    metadata:
+      labels:
+        app: kaniko
     spec:
       containers:
         - name: kaniko
