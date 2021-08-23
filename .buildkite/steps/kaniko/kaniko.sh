@@ -27,7 +27,7 @@ REGISTRY="$REGISTRY" \
 kubectl delete configmap docker-config --ignore-not-found
 kubectl create configmap docker-config --from-file "${config}"
 
-# define pod kaniko variables
+# define job kaniko variables
 artifact="${IMAGE_NAME}:${IMAGE_TAG}.tar.gz"
 credentials="${REGISTRY_USER}:${REGISTRY_TOKEN}"
 CONTEXT="https://${credentials}@${REGISTRY}/artifactory/${REGISTRY_REPOSITORY}/${artifact}"
@@ -39,8 +39,7 @@ HTTP_PROXY="${HTTP_PROXY}" \
   DESTINATION="$DESTINATION" \
   envsubst <"$(dirname "$0")/job.yaml" >"${manifest}"
 
-# start / restart pod execution
-kubectl delete -f "$manifest" --ignore-not-found
+# start / restart job execution
 kubectl apply -f "$manifest"
 
 echo "--- :docker: Waiting build completion ..."
