@@ -43,7 +43,7 @@ HTTP_PROXY="${HTTP_PROXY}" \
 kubectl delete -f "$manifest" --ignore-not-found
 kubectl apply -f "$manifest"
 
-echo "--- :docker: Waiting build completion ..."
+echo "--- :zzz: Waiting build completion ..."
 kubectl logs --selector app=kaniko --follow &
 kubectl wait --for condition=complete --timeout=300s jobs/kaniko
 
