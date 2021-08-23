@@ -40,6 +40,7 @@ HTTP_PROXY="${HTTP_PROXY}" \
   envsubst <"$(dirname "$0")/job.yaml" >"${manifest}"
 
 # start / restart job execution
+kubectl delete -f "$manifest" --ignore-not-found
 kubectl apply -f "$manifest"
 
 echo "--- :docker: Waiting build completion ..."
