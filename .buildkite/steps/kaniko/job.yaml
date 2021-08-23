@@ -3,8 +3,25 @@ apiVersion: batch/v1
 kind: Job
 metadata:
   name: kaniko
+  labels:
+    app: kaniko
+  annotations:
+    a8r.io/description: "Image builder job with kaniko"
 spec:
+
+  parallelism: 1
+  completions: 1
+  backoffLimit: 1
+  activeDeadlineSeconds: 300
+
+  selector:
+    matchLabels:
+      app: kaniko
+
   template:
+    metadata:
+      labels:
+        app: kaniko
     spec:
       containers:
         - name: kaniko
@@ -41,7 +58,3 @@ spec:
         - name: docker-config
           configMap:
             name: docker-config
-  parallelism: 1
-  completions: 1
-  backoffLimit: 1
-  activeDeadlineSeconds: 300
