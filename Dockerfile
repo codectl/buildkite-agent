@@ -12,6 +12,7 @@ RUN curl -L "https://dl.k8s.io/$(curl -L -s https://dl.k8s.io/release/stable.txt
 RUN echo "$(cat kubectl.sha256)  kubectl" | sha256sum -c
 
 # download additional libs
+RUN curl -L "https://raw.githubusercontent.com/kubernetes-sigs/kustomize/master/hack/install_kustomize.sh"  | sh
 RUN curl -L "https://getcli.jfrog.io" | sh
 
 # extend Buildkite agent
@@ -24,12 +25,15 @@ RUN apk add postgresql-client gettext
 WORKDIR /buildkite-agent/
 
 COPY --from=loader /root/kubectl /tmp/
+COPY --from=loader /root/kustomize /tmp/
 COPY --from=loader /root/jfrog /tmp/
 
 # install kubectl & others
 RUN install -m 0755 /tmp/kubectl /usr/local/bin/kubectl
 RUN install -m 0755 /tmp/jfrog /usr/local/bin/jfrog
+RUN install -m 0755 /tmp/kustomize /usr/local/bin/kustomize
 RUN rm /tmp/kubectl
+RUN rm /tmp/kustomize
 RUN rm /tmp/jfrog
 
 # setup hooks
