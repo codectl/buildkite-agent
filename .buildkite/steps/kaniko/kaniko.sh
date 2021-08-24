@@ -15,7 +15,7 @@ elif [[ ! -v REGISTRY_REPOSITORY ]]; then
 fi
 
 # temporary files
-tmpdir=$(mktemp -d)
+tmpdir=$(mktemp -d tmp.kaniko.XXXXX)
 manifest="${tmpdir}/manifest.yaml"
 config="${tmpdir}/config.json"
 echo "--- :kubernetes: Shipping image :docker:"
