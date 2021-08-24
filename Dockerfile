@@ -1,7 +1,7 @@
 FROM alpine AS loader
 
 RUN apk update
-RUN apk add --no-cache curl
+RUN apk add --no-cache bash curl
 
 WORKDIR /root/
 
@@ -12,8 +12,8 @@ RUN curl -L "https://dl.k8s.io/$(curl -L -s https://dl.k8s.io/release/stable.txt
 RUN echo "$(cat kubectl.sha256)  kubectl" | sha256sum -c
 
 # download additional libs
-RUN curl -L "https://raw.githubusercontent.com/kubernetes-sigs/kustomize/master/hack/install_kustomize.sh"  | sh
-RUN curl -L "https://getcli.jfrog.io" | sh
+RUN curl -L "https://raw.githubusercontent.com/kubernetes-sigs/kustomize/master/hack/install_kustomize.sh" | bash
+RUN curl -L "https://getcli.jfrog.io" | bash
 
 # extend Buildkite agent
 FROM buildkite/agent:3
