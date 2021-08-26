@@ -1,7 +1,7 @@
 ---
 apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
-namespace: dev-services
+namespace: services-dev
 
 resources:
   - ../../buildkite-agent/base/
@@ -9,3 +9,4 @@ resources:
 components:
   - ../../components/buildkite-agent/unprivileged/
   - ../../components/buildkite-agent/privileged/
+  - ../../components/buildkite-agent/kaniko/
