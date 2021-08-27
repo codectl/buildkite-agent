@@ -4,7 +4,7 @@ kind: Kustomization
 namespace: services-dev
 
 resources:
-  - ../../buildkite-agent/base/
+  - ../../base/
 
 components:
   - ../../components/buildkite-agent/unprivileged/
