@@ -4,4 +4,4 @@ kind: Kustomization
 namespace: buildkite-agent
 
 components:
-  - ../../components/buildkite-agent/privileged/
+  - ../../../../components/buildkite-agent/privileged/
