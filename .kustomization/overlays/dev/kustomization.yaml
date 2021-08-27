@@ -5,8 +5,8 @@ namespace: services-dev
 
 resources:
   - ../../base/
+  - namespaces/buildkite-agent/
 
 components:
   - ../../components/buildkite-agent/unprivileged/
-  - ../../components/buildkite-agent/privileged/
   - ../../components/kaniko/
