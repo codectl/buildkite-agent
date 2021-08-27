@@ -9,4 +9,4 @@ resources:
 components:
   - ../../components/buildkite-agent/unprivileged/
   - ../../components/buildkite-agent/privileged/
-  - ../../components/buildkite-agent/kaniko/
+  - ../../components/kaniko/
