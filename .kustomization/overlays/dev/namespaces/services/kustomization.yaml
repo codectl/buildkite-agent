@@ -7,5 +7,5 @@ resources:
   - ns.yaml
 
 components:
-  - ../../components/buildkite-agent/unprivileged/
-  - ../../components/kaniko/
+  - ../../../../components/buildkite-agent/unprivileged/
+  - ../../../../components/kaniko/
