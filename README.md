@@ -7,14 +7,23 @@ Documentation for the latest version of Buildkite agent can be found [here](http
 
 ## Install
 
-Run the following instructions in the same order to have it installed:
+This instance is specifically aimed at ```kubernetes```. To start it directly from the host, it should be possible but
+minor adjustments need to be made. Therefore, the focus is on ```kubernetes```.
+
+### Kubernetes
+
+Thw ```kubernetes``` resource manifests are found under ```.kustomization/```. A quick installation can be done
+this way:
 
 ```bash
-$ cd kubernetes/services/buildkite-agent
-$ kubectl apply -f sa.yaml
-$ kubectl apply -f secrets.yaml
-$ kubectl apply -f deployment.yaml
+ENV=dev  # change to prd (production), if applicable
+cd .kustomization/
+kubectl -k apply overlays/${ENV}/
 ```
+
+All the services should now be up and running.
+
+For more information on this, check [README.md](.kustomization/README.md) under ```.kustomization/``` directory.
 
 ## License
 
