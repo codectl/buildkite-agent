@@ -25,7 +25,7 @@ Based on the target environment, one should use the right overlay.
 For instance, to have a development environment running for this service, it would be achieved this way:
 
 ```bash
-$ kubctl apply -k overlays/env
+$ kubctl apply -k overlays/dev
 ```
 
 At this point, all the pods should be running (or about to). An example output with default settings:
