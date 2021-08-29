@@ -5,8 +5,8 @@ kind: Component
 resources:
   - psp.yaml
   - rbac.yaml
+  - secrets.yaml
   - postgres.yaml
 
 patchesStrategicMerge:
-  - secrets.yaml
   - deployment.yaml

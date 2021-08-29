@@ -4,6 +4,5 @@ kind: Kustomization
 
 resources:
   - proxy.yaml
-  - secrets.yaml
   - sa.yaml
   - deployment.yaml
