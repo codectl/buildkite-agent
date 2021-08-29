@@ -4,8 +4,8 @@ kind: Kustomization
 namespace: buildkite-agent
 
 resources:
-  - ../../../../base/.secrets.yaml
   - ../../../../base/.proxy.yaml
+  - ../../../../base/.secrets.yaml
 
 patchesStrategicMerge:
   - ../../../../components/buildkite-agent/privileged/.secrets.yaml
