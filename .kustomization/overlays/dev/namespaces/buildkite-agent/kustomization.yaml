@@ -6,6 +6,7 @@ namespace: buildkite-agent
 resources:
   - ns.yaml
   - ../../../../base/
+  - secrets/proxy.yaml
 
 components:
   - ../../../../components/buildkite-agent/privileged/
