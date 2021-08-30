@@ -5,7 +5,7 @@ kind: Component
 resources:
   - psp.yaml
   - rbac.yaml
-  - secrets.yaml
+  - secrets/sealed.yaml
 
 patchesStrategicMerge:
   - deployment.yaml
