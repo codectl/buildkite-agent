@@ -4,4 +4,3 @@ kind: Kustomization
 
 resources:
   - ../namespaces/buildkite-agent/.secrets.yaml
-  - ../namespaces/services/.secrets.yaml
