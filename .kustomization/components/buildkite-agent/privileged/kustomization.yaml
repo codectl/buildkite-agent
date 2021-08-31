@@ -6,7 +6,6 @@ resources:
   - psp.yaml
   - rbac.yaml
   - postgres.yaml
-  - secrets/sealed.yaml
 
 patchesStrategicMerge:
   - deployment.yaml
