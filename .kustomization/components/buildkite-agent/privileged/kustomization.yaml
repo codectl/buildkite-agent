@@ -10,3 +10,8 @@ resources:
 
 patchesStrategicMerge:
   - deployment.yaml
+
+images:
+  - name: buildkite-agent
+    newName: ...
+    newTag: latest
