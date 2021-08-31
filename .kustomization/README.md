@@ -43,10 +43,10 @@ Unfortunately there is no better way to go about this than to execute the follow
 ```bash
 ENV="dev"
 NS="buildkite-agent"
-kustomize build overlays/${ENV}/secrets/ | yq e 'select(.metadata.name=="proxy") | select(.metadata.namespace=="'$NS'")' - | kubeseal > overlays/${ENV}/namespaces/${NS}/secrets/sealed.yaml
+kustomize build overlays/${ENV}/secrets/ | yq e 'select(.metadata.name=="proxy") | select(.metadata.namespace=="'$NS'")' - | kubeseal > overlays/${ENV}/namespaces/${NS}/secrets/proxy.yaml
 kustomize build overlays/${ENV}/secrets/ | yq e 'select(.metadata.name=="buildkite-agent") | select(.metadata.namespace=="'$NS'")' - | kubeseal > components/buildkite-agent/privileged/secrets/sealed.yaml
 NS="services-${ENV}"
-kustomize build overlays/dev/secrets/ | yq e 'select(.metadata.name=="proxy") | select(.metadata.namespace=="'$NS'")' - | kubeseal > overlays/dev/namespaces/${NS}/secrets/sealed.yaml
+kustomize build overlays/dev/secrets/ | yq e 'select(.metadata.name=="proxy") | select(.metadata.namespace=="'$NS'")' - | kubeseal > overlays/dev/namespaces/${NS}/secrets/proxy.yaml
 kustomize build overlays/${ENV}/secrets/ | yq e 'select(.metadata.name=="buildkite-agent") | select(.metadata.namespace=="'$NS'")' - | kubeseal > components/buildkite-agent/unprivileged/secrets/sealed.yaml
 ```
 
