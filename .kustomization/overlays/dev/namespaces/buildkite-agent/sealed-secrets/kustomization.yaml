@@ -4,7 +4,7 @@ kind: Kustomization
 namespace: buildkite-agent
 
 resources:
-  - ../../../../../base/secrets/
+  - ../../../../../base/.secrets/
 
 components:
-  - ../../../../../components/buildkite-agent/privileged/secrets/
+  - ../../../../../components/buildkite-agent/privileged/.secrets/
