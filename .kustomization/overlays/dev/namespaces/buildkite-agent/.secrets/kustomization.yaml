@@ -4,9 +4,7 @@ kind: Kustomization
 namespace: buildkite-agent
 
 resources:
-  - ns.yaml
-  - sealed-secrets/
-  - ../../../../base/
+  - ../../../../../base/.secrets/
 
 components:
-  - ../../../../components/buildkite-agent/privileged/
+  - ../../../../../components/buildkite-agent/privileged/.secrets/
