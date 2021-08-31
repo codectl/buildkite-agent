@@ -34,24 +34,26 @@ of ```kustomize``` and ```kubeseal``` is needed for this process.
 Starting off by running the command below:
 
 ```bash
-kustomize build overlays/dev/secrets/
+kustomize build .kustomize/overlays/dev/.secrets/
 ```
 
 This produces a compilation of all the secrets needed in the project, and which need to be sealed individually.
 Unfortunately there is no better way to go about this than to execute the following sequence:
 
 ```bash
+(
 ENV="dev"
-NS="buildkite-agent"
-kustomize build overlays/${ENV}/.secrets/ | yq e 'select(.metadata.name=="proxy")' - | kubeseal > overlays/${ENV}/namespaces/${NS}/sealed-secrets/proxy.yaml
-kustomize build overlays/${ENV}/.secrets/ | yq e 'select(.metadata.name=="buildkite-agent")' - | kubeseal > overlays/${ENV}/namespaces/${NS}/sealed-secrets/secrets.yaml
-NS="services-${ENV}"
-kustomize build overlays/${ENV}/.secrets/ | yq e 'select(.metadata.name=="proxy") | select(.metadata.namespace=="'$NS'")' - | kubeseal > overlays/${ENV}/namespaces/${NS}/sealed-secrets/proxy.yaml
-kustomize build overlays/${ENV}/.secrets/ | yq e 'select(.metadata.name=="buildkite-agent") | select(.metadata.namespace=="'$NS'")' - | kubeseal > overlays/${ENV}/namespaces/${NS}/sealed-secrets/secrets.yaml
+basedir="$(pwd)/.kustomization"
+for ns in "services-${ENV}" "buildkite-agent"; do
+  cd "${basedir}/overlays/${ENV}/namespaces/${ns}/"
+  kustomize build .secrets | yq e 'select(.metadata.name=="'proxy'")' - | kubeseal > sealed-secrets/proxy.yaml 
+  kustomize build .secrets | yq e 'select(.metadata.name=="'buildkite-agent'")' - | kubeseal > sealed-secrets/secrets.yaml 
+done
+)
 ```
 
-As a result, all the secrets are now sealed, they can safely be shared and stored with no risk of compromising sensitive
-information.
+As a result, all the secrets are now sealed under ```sealed-secrets```, and they can now safely be shared and stored
+with no risk of compromising sensitive information.
 
 ## Usage
 
