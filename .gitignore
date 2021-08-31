@@ -19,4 +19,4 @@ env/
 *.log*
 
 # exclude hidden kustomization files.
-.kustomization/.*.yaml
+.kustomization/**/.*.yaml
