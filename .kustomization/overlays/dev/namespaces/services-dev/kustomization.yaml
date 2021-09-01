@@ -5,8 +5,8 @@ namespace: services-dev
 
 resources:
   - ns.yaml
-  - sealed-secrets/
   - ../../../../base/
+  - sealed-secrets/
 
 components:
   - ../../../../components/buildkite-agent/unprivileged/

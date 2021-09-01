@@ -5,8 +5,8 @@ namespace: buildkite-agent
 
 resources:
   - ns.yaml
-  - sealed-secrets/
   - ../../../../base/
+  - sealed-secrets/
 
 components:
   - ../../../../components/buildkite-agent/privileged/
