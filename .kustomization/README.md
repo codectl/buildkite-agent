@@ -44,11 +44,8 @@ Unfortunately there is no better way to go about this than to execute the follow
 (
 ENV="dev"
 basedir="$(pwd)/.kustomization"
-for ns in "services-${ENV}" "buildkite-agent"; do
-  cd "${basedir}/overlays/${ENV}/namespaces/${ns}/"
-  kustomize build .secrets | yq e 'select(.metadata.name=="'proxy'")' - | kubeseal > sealed-secrets/proxy.yaml 
-  kustomize build .secrets | yq e 'select(.metadata.name=="'buildkite-agent'")' - | kubeseal > sealed-secrets/secrets.yaml 
-done
+cd "${basedir}/overlays/${ENV}/"
+kustomize build secrets | kubeseal > secrets/sealed/buildkite-agent.yaml 
 )
 ```
 
