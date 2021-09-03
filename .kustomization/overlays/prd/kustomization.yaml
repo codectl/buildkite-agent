@@ -4,10 +4,10 @@ kind: Kustomization
 namespace: services
 
 resources:
-  - ../../../../base/
+  - ../../base/
   - secrets/sealed/
 
 components:
-  - ../../../../components/buildkite-agent/
-  - ../../../../components/kaniko/
+  - ../../components/buildkite-agent/
+  - ../../components/kaniko/
   - components/
