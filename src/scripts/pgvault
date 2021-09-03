@@ -13,7 +13,7 @@ if [[ ! $(pg_isready) ]]; then
 fi
 
 # superuser
-SUPERUSER=(PGUSER=postgres PGPASSWORD="${POSTGRES_PASSWORD}")
+SUPERUSER=(PGUSER="${POSTGRES_USER}" PGPASSWORD="${POSTGRES_PASSWORD}")
 pgenv="env ${SUPERUSER[*]}"
 
 #

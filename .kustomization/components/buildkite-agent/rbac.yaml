@@ -2,12 +2,12 @@
 apiVersion: rbac.authorization.k8s.io/v1
 kind: Role
 metadata:
-  name: unprivileged-buildkite-agent
+  name: buildkite-agent
 rules:
   - apiGroups: [ policy ]
     resources: [ podsecuritypolicies ]
     verbs: [ use ]
-    resourceNames: [ unprivileged-buildkite-agent ]
+    resourceNames: [ buildkite-agent ]
 ---
 apiVersion: rbac.authorization.k8s.io/v1
 kind: RoleBinding
@@ -16,7 +16,7 @@ metadata:
 roleRef:
   apiGroup: rbac.authorization.k8s.io
   kind: Role
-  name: unprivileged-buildkite-agent
+  name: buildkite-agent
 subjects:
   - kind: ServiceAccount
     name: buildkite-agent

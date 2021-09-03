@@ -2,9 +2,9 @@
 apiVersion: policy/v1beta1
 kind: PodSecurityPolicy
 metadata:
-  name: unprivileged-buildkite-agent
+  name: buildkite-agent
   annotations:
-    kubernetes.io/description: 'psp for unprivileged buildkite agent pod'
+    kubernetes.io/description: 'psp for buildkite agent pod'
     seccomp.security.alpha.kubernetes.io/allowedProfileNames: 'runtime/default'
     seccomp.security.alpha.kubernetes.io/defaultProfileName: 'runtime/default'
 spec:

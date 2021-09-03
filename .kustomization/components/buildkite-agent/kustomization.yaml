@@ -4,10 +4,8 @@ kind: Component
 
 resources:
   - psp.yaml
+  - sa.yaml
   - rbac.yaml
-  - postgres.yaml
-
-patchesStrategicMerge:
   - deployment.yaml
 
 images:
