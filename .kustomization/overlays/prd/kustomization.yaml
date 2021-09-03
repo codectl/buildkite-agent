@@ -10,4 +10,4 @@ resources:
 components:
   - ../../components/buildkite-agent/
   - ../../components/kaniko/
-  - components/
+  - deployments/
