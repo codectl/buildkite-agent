@@ -29,7 +29,7 @@ function init {
 
     $pgenv createdb "$PGDATABASE" 2> /dev/null || true
     $pgenv psql -qc "
-      CREATE USER '\"'$PGUSER\" WITH
+      CREATE USER $PGUSER WITH
         NOSUPERUSER NOCREATEDB NOCREATEROLE
         ENCRYPTED PASSWORD '$PGPASSWORD'
       ;" 2> /dev/null || true
