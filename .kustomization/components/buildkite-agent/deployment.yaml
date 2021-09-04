@@ -36,6 +36,8 @@ spec:
             - secretRef:
                 name: ha-postgres
             - secretRef:
+                name: buildkite-agent-postgres
+            - secretRef:
                 name: buildkite-agent
           volumeMounts:
             - name: buildkite-builds
