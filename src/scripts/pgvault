@@ -101,7 +101,7 @@ function setenv {
 # Manual
 #
 function help {
-    echo "Usage: $(basename $0) command"
+    echo "Usage: $(basename "$0") command"
     echo "Commands: init"
 }
 
