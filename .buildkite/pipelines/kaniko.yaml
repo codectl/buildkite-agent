@@ -3,7 +3,7 @@ steps:
   - label: ":docker: :kubernetes: Build image with kaniko"
     command: ".buildkite/steps/kaniko/kaniko.sh"
     agents:
-      env: kubernetes
-      namespace: buildkite-agent
+      env: prd
+      namespace: services
+      kubernetes: true
       kaniko: true
-      privileged: true
