@@ -3,5 +3,11 @@
     "${REGISTRY}": {
       "auth": "${CREDENTIALS}"
     }
+  },
+  "proxies": {
+    "default": {
+      "httpProxy": "${HTTP_PROXY}",
+      "httpsProxy": "${HTTPS_PROXY}"
+    }
   }
 }
