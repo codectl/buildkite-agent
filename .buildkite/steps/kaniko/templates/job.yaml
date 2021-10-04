@@ -29,8 +29,6 @@ spec:
           image: gcr.io/kaniko-project/executor:latest
           imagePullPolicy: IfNotPresent
           args:
-            - "--skip-tls-verify"
-            - "--skip-tls-verify-pull"
             - "--dockerfile=Dockerfile"
             - "--context=${CONTEXT}"
             - "--destination=${DESTINATION}"
