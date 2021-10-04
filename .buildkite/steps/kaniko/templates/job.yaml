@@ -32,7 +32,8 @@ spec:
             - "--dockerfile=Dockerfile"
             - "--context=${CONTEXT}"
             - "--destination=${DESTINATION}"
-            - "--skip-tls-verify-registry"
+            - "--skip-tls-verify-pull"
+            - "--skip-tls-verify-push"
             # needed proxy settings as build vars
             - "--build-arg=HTTP_PROXY=${HTTP_PROXY}"
             - "--build-arg=HTTPS_PROXY=${HTTPS_PROXY}"
