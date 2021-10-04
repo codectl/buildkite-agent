@@ -27,7 +27,7 @@ function init {
       exit 0
     fi
 
-    $pgenv createdb "$PGDATABASE" 2> /dev/null || true
+    $pgenv psql -qc "CREATE DATABASE \"$PGDATABASE\" WITH OWNER \"$PGUSER\";"
     $pgenv psql -qc "
       CREATE USER \"$PGUSER\" WITH
         NOSUPERUSER NOCREATEDB NOCREATEROLE
