@@ -29,11 +29,11 @@ spec:
           image: gcr.io/kaniko-project/executor:latest
           imagePullPolicy: IfNotPresent
           args:
+            - "--skip-tls-verify"
+            - "--skip-tls-verify-pull"
             - "--dockerfile=Dockerfile"
             - "--context=${CONTEXT}"
             - "--destination=${DESTINATION}"
-            - "--skip-tls-verify"
-            - "--skip-tls-verify-pull"
             # needed proxy settings as build vars
             - "--build-arg=HTTP_PROXY=${HTTP_PROXY}"
             - "--build-arg=HTTPS_PROXY=${HTTPS_PROXY}"
