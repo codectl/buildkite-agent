@@ -16,9 +16,11 @@ Thw ```kubernetes``` resource manifests are found under ```.kustomization/```. A
 this way:
 
 ```bash
-ENV=dev  # change to prd (production), if applicable
+(
+ENV=prd  # change to prd (production), if applicable
 cd .kustomization/
-kubectl -k apply overlays/${ENV}/
+kubectl apply -k overlays/${ENV}/
+)
 ```
 
 All the services should now be up and running.
