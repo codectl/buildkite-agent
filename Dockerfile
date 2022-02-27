@@ -28,9 +28,8 @@ RUN ln -sf python3 /usr/bin/python
 RUN python -m pip install --upgrade pip setuptools
 
 # build & testing tools (tox, poetry)
-RUN curl -sL https://raw.githubusercontent.com/python-poetry/poetry/master/install-poetry.py | python -
+RUN python -m pip install poetry tox tox-poetry
 RUN poetry config virtualenvs.in-project true
-RUN python -m pip install tox tox-poetry
 
 WORKDIR /buildkite-agent/
 
