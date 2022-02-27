@@ -24,6 +24,7 @@ RUN apk add postgresql-client gettext
 
 # install & setup python
 RUN apk add python3
+RUN ln -sf python3 /usr/bin/python
 RUN python -m pip install --upgrade pipsetuptools
 
 # build & testing tools (tox, poetry)
