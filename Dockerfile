@@ -27,8 +27,9 @@ RUN apk add python3
 RUN ln -sf python3 /usr/bin/python
 RUN python -m pip install --upgrade pip setuptools
 
-# build & testing tools (tox, poetry, virtualenv)
-RUN pip install poetry tox tox-poetry
+# build & testing tools (tox, poetry)
+RUN apk add build-base libffi-dev python3-dev
+RUN python -m pip install --upgrade --ignored-installed poetry tox tox-poetry
 RUN poetry config virtualenvs.in-project true
 
 WORKDIR /buildkite-agent/
