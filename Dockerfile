@@ -22,6 +22,15 @@ FROM buildkite/agent:3
 RUN apk update
 RUN apk add postgresql-client gettext
 
+# install & setup python
+RUN apk add python3
+RUN python -m pip install --upgrade pipsetuptools
+
+# build & testing tools (tox, poetry)
+RUN curl -sL https://raw.githubusercontent.com/python-poetry/poetry/master/install-poetry.py | python -
+RUN poetry config virtualenvs.in-project true
+RUN python -m pip install tox tox-poetry
+
 WORKDIR /buildkite-agent/
 
 COPY --from=loader /root/kubectl /tmp/
