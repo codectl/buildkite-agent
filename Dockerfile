@@ -15,27 +15,27 @@ RUN echo "$(cat kubectl.sha256)  kubectl" | sha256sum -c
 RUN curl -L "https://raw.githubusercontent.com/kubernetes-sigs/kustomize/master/hack/install_kustomize.sh" | bash
 RUN curl -L "https://getcli.jfrog.io" | bash
 
-# ... and dependencies
-RUN apk add build-base libffi-dev python3-dev
-RUN apk add postgresql-client gettext
-
 # extend Buildkite agent
 FROM buildkite/agent:3
 
-COPY --from=loader /root/.cache /root/.cache
-COPY --from=loader /root/kubectl /tmp/
-COPY --from=loader /root/kustomize /tmp/
-COPY --from=loader /root/jfrog /tmp/
+# install dependencies
+RUN apk update
+RUN apk add postgresql-client gettext
+RUN apk add gcc libc-dev libffi-dev python3-dev
 
-# install & setup python
+# setup python
 RUN ln -sf python3 /usr/bin/python
 RUN python -m pip install --upgrade pip setuptools
 
 # build & testing tools (tox, poetry)
-RUN python -m pip install --upgrade --ignore-installed poetry tox tox-poetry
+RUN python -m pip install --upgrade --ignored-installed poetry tox tox-poetry
 RUN poetry config virtualenvs.in-project true
 
 WORKDIR /buildkite-agent/
+
+COPY --from=loader /root/kubectl /tmp/
+COPY --from=loader /root/kustomize /tmp/
+COPY --from=loader /root/jfrog /tmp/
 
 # install kubectl & others
 RUN install -m 0755 /tmp/kubectl /usr/local/bin/kubectl
