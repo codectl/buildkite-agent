@@ -13,3 +13,6 @@ fi
 
 # change protocol git to https
 BUILDKITE_REPO=$(sed "s/:/\//; s/git@/https:\/\/${BITBUCKET_USER}:${BITBUCKET_TOKEN}@/" <<< "$BUILDKITE_REPO")
+
+# cleanup staging dir after build
+BUILDKITE_CLEAN_CHECKOUT=true
