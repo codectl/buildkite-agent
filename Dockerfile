@@ -32,6 +32,10 @@ RUN curl -L "https://install.python-poetry.org" | POETRY_HOME=/usr/local python3
 RUN poetry config virtualenvs.in-project true
 RUN python -m pip install --upgrade --ignore-installed tox tox-poetry
 
+# create system user
+ENV USER buildkite-agent
+RUN useradd --system --create-home -u 1000 $USER
+
 WORKDIR /buildkite-agent/
 
 COPY --from=loader /root/kubectl /tmp/
