@@ -32,9 +32,9 @@ RUN curl -L "https://install.python-poetry.org" | POETRY_HOME=/usr/local python3
 RUN poetry config virtualenvs.in-project true
 RUN python -m pip install --upgrade --ignore-installed tox tox-poetry
 
-# create system user
-ENV USER buildkite-agent
-RUN adduser -S -u 1000 $USER
+# change to system user
+RUN adduser --system --uid 1000 buildkite-agent
+USER buildkite-agent
 
 WORKDIR /buildkite-agent/
 
