@@ -11,14 +11,14 @@ RUN curl -L "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/st
 RUN curl -L "https://dl.k8s.io/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl.sha256" -o kubectl.sha256
 RUN echo "$(cat kubectl.sha256)  kubectl" | sha256sum -c
 
-# download additional libs
+# download libs
 RUN curl -L "https://raw.githubusercontent.com/kubernetes-sigs/kustomize/master/hack/install_kustomize.sh" | bash
 RUN curl -L "https://getcli.jfrog.io" | bash
 
 # extend Buildkite agent
 FROM buildkite/agent:3
 
-# install dependencies
+# install local utilities & dependencies
 RUN apk update
 RUN apk add postgresql-client gettext
 RUN apk add gcc libc-dev libffi-dev python3-dev
@@ -27,15 +27,16 @@ RUN apk add gcc libc-dev libffi-dev python3-dev
 RUN ln -sf python3 /usr/bin/python
 RUN python -m pip install --upgrade pip setuptools
 
-# build & testing tools (tox, poetry)
-RUN curl -L "https://raw.githubusercontent.com/python-poetry/poetry/master/install-poetry.py" | python -
-RUN python -m pip install --upgrade --ignore-installed tox tox-poetry
+# setup poetry
+RUN curl -L "https://install.python-poetry.org" | POETRY_HOME=/usr/local python3 -
 RUN poetry config virtualenvs.in-project true
+RUN python -m pip install --upgrade --ignore-installed tox tox-poetry
 
 WORKDIR /buildkite-agent/
 
 COPY --from=loader /root/kubectl /tmp/
 COPY --from=loader /root/kustomize /tmp/
+COPY --from=loader /root/jfrog /tmp/
 COPY --from=loader /root/jfrog /tmp/
 
 # install kubectl & others
