@@ -32,10 +32,6 @@ RUN curl -L "https://install.python-poetry.org" | POETRY_HOME=/usr/local python3
 RUN poetry config virtualenvs.in-project true
 RUN python -m pip install --upgrade --ignore-installed tox tox-poetry
 
-# change to system user
-RUN adduser --system --uid 1000 buildkite-agent
-USER buildkite-agent
-
 WORKDIR /buildkite-agent/
 
 COPY --from=loader /root/kubectl /tmp/
@@ -61,3 +57,7 @@ COPY src/entrypoint/* /docker-entrypoint.d/
 RUN chmod -R 0755 /docker-entrypoint.d/
 
 ENV BUILDKITE_HOOKS_PATH /buildkite-agent/hooks
+
+# change to system user
+RUN adduser --system --uid 1000 buildkite-agent
+USER buildkite-agent
